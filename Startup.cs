@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyWebApp
 {
@@ -29,6 +30,9 @@ namespace MyWebApp
         {
             // Add framework services.
             services.AddMvc();
+            // Add database context
+            var connstring = Configuration["DbContextSettings:ConnectionString"];
+            services.AddDbContext<ArticleContext>(options => options.UseNpgsql(connstring));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
