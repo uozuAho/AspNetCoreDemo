@@ -50,6 +50,8 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 4. Add a model, create a migration
 - see models under Models/
 - run `dotnet ef migrations add <migration name>`
+- remove the erroneous `using ;` in the generated .Designer and *ModelSnapshot.cs files
+    + to be fixed in EF core: https://github.com/aspnet/EntityFramework/issues/2467
 
 5. build and run
 ```
