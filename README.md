@@ -27,10 +27,9 @@ sudo npm install -g yo bower generator-aspnet
 2. configure postgresql
 ```
 # create a test user + password
-sudo -u postgres createuser --interactive
-# enter name <username>
-# superuser? y
+sudo -u postgres createuser --superuser <username>
 sudo -u postgres psql -c "alter role <username> with password '<password>'"
+createdb <username>
 ```
 
 3. create a new web app
@@ -45,13 +44,16 @@ dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
 dotnet add package Microsoft.EntityFrameworkCore.Design
 ```
 - add Microsoft.EntityFrameworkCore.Tools.DotNet to .csproj (see this project)
+- add DB connection string to appsettings.Development.json (see this project)
+- inject DB context in Startup.ConfigureServices (Startup.cs)
 - run `dotnet restore`
 
-4. Add a model, create a migration
+4. Add a model, create a migration, apply to database
 - see models under Models/
 - run `dotnet ef migrations add <migration name>`
 - remove the erroneous `using ;` in the generated .Designer and *ModelSnapshot.cs files
     + to be fixed in EF core: https://github.com/aspnet/EntityFramework/issues/2467
+- run `dotnet ef database update`
 
 5. build and run
 ```
