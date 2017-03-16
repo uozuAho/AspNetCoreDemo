@@ -1,3 +1,68 @@
+# Building my first web app with dotnet core on Ubuntu 16.04
+
+## intro
+Attempting to build an example website using
+- asp net core
+- ef core with ef migrations
+- yeoman
+- postgresql
+
+## references
+https://www.microsoft.com/net/core#linuxubuntu
+https://docs.microsoft.com/en-us/aspnet/core/client-side/yeoman
+https://andrewlock.net/adding-ef-core-to-a-project-on-os-x/
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04
+
+## install everything
+```
+sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
+sudo apt-get update
+sudo apt-get install dotnet-dev-1.0.1 nodejs npm postgresql postgresql-contrib
+sudo npm install -g yo bower generator-aspnet
+```
+
+## configure postgresql
+```
+# create a test user + password
+sudo -u postgres createuser --interactive
+# enter name <username>
+# superuser? y
+sudo -u postgres psql -c "alter role <username> with password '<password>'"
+```
+
+## create a new web app
+```
+yo aspnet
+- Web application basic [without membership/auth]
+- Bootstrap
+- MyWebApp
+cd MyWebApp
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet restore
+dotnet build
+dotnet run
+```
+
+- server now running on http://localhost:5000
+- stop it with ctrl-c
+
+## notes
+- ef migrations seem to be tied to DB provider. That's not good, right?
+  eg. using postgres, initial migration uses NpgsqlValueGenerationStrategy
+
+
+## todo
+- read the readme.md in the MyWebApp project
+- ef in memory provider for testing?
+- go through the asp.net generic readme that came with this project (below)
+
+
+------------------------------------------------------------------
+
+# Generic ASP.NET readme
 # Welcome to ASP.NET Core
 
 We've made some big updates in this release, so it’s **important** that you spend a few minutes to learn what’s new.
