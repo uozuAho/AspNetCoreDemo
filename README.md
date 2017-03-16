@@ -13,7 +13,9 @@ https://docs.microsoft.com/en-us/aspnet/core/client-side/yeoman
 https://andrewlock.net/adding-ef-core-to-a-project-on-os-x/
 https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04
 
-## install everything
+## steps to re-create this project from scratch
+
+1. install everything
 ```
 sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
@@ -22,7 +24,7 @@ sudo apt-get install dotnet-dev-1.0.1 nodejs npm postgresql postgresql-contrib
 sudo npm install -g yo bower generator-aspnet
 ```
 
-## configure postgresql
+2. configure postgresql
 ```
 # create a test user + password
 sudo -u postgres createuser --interactive
@@ -31,7 +33,7 @@ sudo -u postgres createuser --interactive
 sudo -u postgres psql -c "alter role <username> with password '<password>'"
 ```
 
-## create a new web app
+3. create a new web app
 ```
 yo aspnet
 - Web application basic [without membership/auth]
@@ -41,11 +43,19 @@ cd MyWebApp
 dotnet add package Microsoft.EntityFrameworkCore
 dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
 dotnet add package Microsoft.EntityFrameworkCore.Design
-dotnet restore
+```
+- add Microsoft.EntityFrameworkCore.Tools.DotNet to .csproj (see this project)
+- run `dotnet restore`
+
+4. Add a model, create a migration
+- see models under Models/
+- run `dotnet ef migrations add <migration name>`
+
+5. build and run
+```
 dotnet build
 dotnet run
 ```
-
 - server now running on http://localhost:5000
 - stop it with ctrl-c
 
