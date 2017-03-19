@@ -63,16 +63,13 @@ dotnet run
 - server now running on http://localhost:5000
 - stop it with ctrl-c
 
+## todo
+- go through the asp.net generic readme that came with this project (below)
+- ef in memory provider for testing?
+
 ## notes
 - ef migrations seem to be tied to DB provider. That's not good, right?
   eg. using postgres, initial migration uses NpgsqlValueGenerationStrategy
-
-
-## todo
-- read the readme.md in the MyWebApp project
-- ef in memory provider for testing?
-- go through the asp.net generic readme that came with this project (below)
-
 
 ------------------------------------------------------------------
 

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +15,9 @@ namespace MyWebApp
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables()
+                .AddUserSecrets<Startup>();
+
             Configuration = builder.Build();
         }
 
@@ -31,7 +29,7 @@ namespace MyWebApp
             // Add framework services.
             services.AddMvc();
             // Add database context
-            var connstring = Configuration["DbContextSettings:ConnectionString"];
+            var connstring = Configuration["test_conn_string"];
             services.AddDbContext<ArticleContext>(options => options.UseNpgsql(connstring));
         }
 
