@@ -13,9 +13,30 @@ namespace MyWebApp.Controllers
             db = context;
         }
 
+        // GET: Contacts/Index
         public ActionResult Index()
         {
             return View(db.Authors.ToList());
+        }
+
+        // GET: Contacts/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind("FirstName","LastName")] Author author)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Authors.Add(author);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(author);
         }
     }
 }
